@@ -12,7 +12,7 @@ import (
 
 //Subscriber interface
 type Subscriber interface {
-	Subscribe(context.Context, string) error
+	Subscribe(context.Context, ...string) error
 }
 
 //SubscriberImpl struct
@@ -29,6 +29,9 @@ type SubscriberHandler struct {
 //NewSubscriber constructor of SubscriberImpl
 func NewSubscriber(addresses ...string) (*SubscriberImpl, error) {
 	config := sarama.NewConfig()
+
+	kafkaVersion, _ := sarama.ParseKafkaVersion("2.1.1")
+	config.Version = kafkaVersion
 	config.Consumer.Return.Errors = true
 
 	consumer, err := sarama.NewConsumerGroup(addresses, "kafka-cli-group", config)
@@ -43,8 +46,6 @@ func NewSubscriber(addresses ...string) (*SubscriberImpl, error) {
 
 //Subscribe function
 func (s *SubscriberImpl) Subscribe(ctx context.Context, topics ...string) error {
-	signals := make(chan os.Signal, 1)
-	signal.Notify(signals, os.Interrupt, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		for {
 			s.handler.wait = make(chan bool, 0)
@@ -56,8 +57,13 @@ func (s *SubscriberImpl) Subscribe(ctx context.Context, topics ...string) error 
 	}()
 	<-s.handler.wait
 
+	// wait until get signal from OS
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, os.Interrupt, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
+
 	<-signals
 
+	// close consumer after exit
 	err := s.c.Close()
 	if err != nil {
 		return err
@@ -86,7 +92,7 @@ func (handler *SubscriberHandler) ConsumeClaim(session sarama.ConsumerGroupSessi
 	// The `ConsumeClaim` itself is called within a goroutine, see:
 	// https://github.com/Shopify/sarama/blob/master/consumer_group.go#L27-L29
 	for message := range claim.Messages() {
-		log.Printf("Message claimed: value = %s, timestamp = %v, topic = %s", string(message.Value), message.Timestamp, message.Topic)
+		log.Printf("Message : value = %s\ntimestamp = %v\ntopic = %s", string(message.Value), message.Timestamp, message.Topic)
 		session.MarkMessage(message, "")
 	}
 
