@@ -53,14 +53,15 @@ func ParseArgument() (*Argument, error) {
 	publishCommand.StringVar(&topic, "topic", "", "kafka topic")
 	publishCommand.StringVar(&message, "m", "", "message to publish")
 	publishCommand.StringVar(&message, "message", "", "message to publish")
+	publishCommand.BoolVar(&verbose, "V", false, "verbose mode (if true log will appear otherwise no)")
 
 	subscribeCommand.Var(&brokers, "b", "kafka brokers (you can add multiple brokers using separated comma eg: -b localhost:9091,localhost:9092 ..)")
 	subscribeCommand.Var(&brokers, "broker", "you can add multiple brokers using separated comma eg: -b localhost:9091,localhost:9092 ..)")
 	subscribeCommand.StringVar(&topic, "t", "", "kafka topic")
 	subscribeCommand.StringVar(&topic, "topic", "", "kafka topic")
+	subscribeCommand.BoolVar(&verbose, "V", false, "verbose mode (if true log will appear otherwise no)")
 
 	flag.BoolVar(&showVersion, "version", false, "show version")
-	flag.BoolVar(&verbose, "V", false, "verbose mode (if true log will appear otherwise no)")
 
 	flag.Usage = func() {
 		fmt.Println()
