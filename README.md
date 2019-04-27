@@ -1,8 +1,8 @@
-### Kafka CLI
+## Kafka CLI
 
 Kafka cli client
 
-#### Install
+### Install
 
 From source
 ```shell
@@ -13,24 +13,24 @@ $ go install github.com/musobarlab/kafka-cli/cmd
 $ kafka-cli --version
 ```
 
-#### Usage
+### Usage
 
-Publish message to Kafka broker and topic
+<b>Publish message to Kafka broker and topic</b>
 ```shell
 $ kafka-cli pub -broker localhost:9092 -topic wurys -m "hahahaha" -V
 ```
 
-or multiple broker
+<b>or multiple broker</b>
 ```shell
 $ kafka-cli pub -broker localhost:9092,localhost:9093,localhost:9094 -topic wurys -m "hahahaha" -V
 ```
 
-Subscribe to Kafka broker and topic
+<b>Subscribe to Kafka broker and topic</b>
 ```shell
 $ kafka-cli sub -broker localhost:9092 -topic wurys
 ```
 
-or multiple broker
+<b>or multiple broker</b>
 ```shell
 $ kafka-cli sub -broker localhost:9092,localhost:9093,localhost:9094 -topic wurys
 ```
