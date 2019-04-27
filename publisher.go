@@ -2,8 +2,6 @@ package kafka
 
 import (
 	"fmt"
-	"log"
-	"os"
 	"time"
 
 	"github.com/Shopify/sarama"
@@ -21,7 +19,6 @@ type PublisherImpl struct {
 
 //NewPublisher constructor of PublisherImpl
 func NewPublisher(addresses ...string) (*PublisherImpl, error) {
-	sarama.Logger = log.New(os.Stdout, "", log.Ltime)
 
 	// producer config
 	configuration := sarama.NewConfig()
