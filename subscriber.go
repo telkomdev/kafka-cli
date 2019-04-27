@@ -2,6 +2,7 @@ package kafka
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -36,7 +37,7 @@ func NewSubscriber(addresses ...string) (*SubscriberImpl, error) {
 
 	consumer, err := sarama.NewConsumerGroup(addresses, "kafka-cli-group", config)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	subscriberHandler := &SubscriberHandler{}
@@ -51,7 +52,7 @@ func (s *SubscriberImpl) Subscribe(ctx context.Context, topics ...string) error 
 			s.handler.wait = make(chan bool, 0)
 			err := s.c.Consume(ctx, topics, s.handler)
 			if err != nil {
-				return
+				fmt.Println(err)
 			}
 		}
 	}()
@@ -92,7 +93,7 @@ func (handler *SubscriberHandler) ConsumeClaim(session sarama.ConsumerGroupSessi
 	// The `ConsumeClaim` itself is called within a goroutine, see:
 	// https://github.com/Shopify/sarama/blob/master/consumer_group.go#L27-L29
 	for message := range claim.Messages() {
-		log.Printf("Message : value = %s\ntimestamp = %v\ntopic = %s", string(message.Value), message.Timestamp, message.Topic)
+		log.Printf("\nMessage = %s\ntopic = %s", string(message.Value), message.Topic)
 		session.MarkMessage(message, "")
 	}
 
