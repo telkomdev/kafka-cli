@@ -3,7 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
+
+	"github.com/Shopify/sarama"
 
 	kafka "github.com/musobarlab/kafka-cli"
 )
@@ -17,12 +20,15 @@ func main() {
 		os.Exit(1)
 	}
 
+	if args.Verbose {
+		sarama.Logger = log.New(os.Stdout, "", log.Ltime)
+	}
+
 	ctx := context.Background()
 	publisher, err := kafka.NewPublisher(args.Brokers...)
 	if err != nil {
 		fmt.Println("error : ", err)
 
-		args.Help()
 		os.Exit(1)
 	}
 
@@ -30,7 +36,6 @@ func main() {
 	if err != nil {
 		fmt.Println("error : ", err)
 
-		args.Help()
 		os.Exit(1)
 	}
 

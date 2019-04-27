@@ -16,6 +16,7 @@ type Argument struct {
 	ShowVersion bool
 	Help        func()
 	Message     []byte
+	Verbose     bool
 }
 
 type brokerList []string
@@ -37,6 +38,7 @@ func ParseArgument() (*Argument, error) {
 		topic       string
 		message     string
 		showVersion bool
+		verbose     bool
 	)
 
 	argument := &Argument{}
@@ -49,8 +51,8 @@ func ParseArgument() (*Argument, error) {
 	publishCommand.Var(&brokers, "broker", "kafka brokers (you can add multiple brokers using separated comma eg: -b localhost:9091,localhost:9092 ..)")
 	publishCommand.StringVar(&topic, "t", "", "kafka topic")
 	publishCommand.StringVar(&topic, "topic", "", "kafka topic")
-	publishCommand.StringVar(&message, "-m", "", "message to publish")
-	publishCommand.StringVar(&message, "-message", "", "message to publish")
+	publishCommand.StringVar(&message, "m", "", "message to publish")
+	publishCommand.StringVar(&message, "message", "", "message to publish")
 
 	subscribeCommand.Var(&brokers, "b", "kafka brokers (you can add multiple brokers using separated comma eg: -b localhost:9091,localhost:9092 ..)")
 	subscribeCommand.Var(&brokers, "broker", "you can add multiple brokers using separated comma eg: -b localhost:9091,localhost:9092 ..)")
@@ -58,6 +60,7 @@ func ParseArgument() (*Argument, error) {
 	subscribeCommand.StringVar(&topic, "topic", "", "kafka topic")
 
 	flag.BoolVar(&showVersion, "version", false, "show version")
+	flag.BoolVar(&verbose, "V", false, "verbose mode (if true log will appear otherwise no)")
 
 	flag.Usage = func() {
 		fmt.Println()
@@ -67,6 +70,7 @@ func ParseArgument() (*Argument, error) {
 		fmt.Println("-t | -topic : kafka topic")
 		fmt.Println("-h show help")
 		fmt.Println("-version show version")
+		fmt.Println("-V verbose mode")
 	}
 
 	flag.Parse()
@@ -143,6 +147,7 @@ func ParseArgument() (*Argument, error) {
 	}
 
 	argument.ShowVersion = showVersion
+	argument.Verbose = verbose
 
 	return argument, nil
 }
