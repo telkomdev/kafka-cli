@@ -1,0 +1,49 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+
+	kafka "github.com/musobarlab/kafka-cli"
+)
+
+func main() {
+	args, err := kafka.ParseArgument()
+	if err != nil {
+		fmt.Println("error : ", err)
+
+		args.Help()
+		os.Exit(1)
+	}
+
+	ctx := context.Background()
+	publisher, err := kafka.NewPublisher(args.Brokers...)
+	if err != nil {
+		fmt.Println("error : ", err)
+
+		args.Help()
+		os.Exit(1)
+	}
+
+	subsriber, err := kafka.NewSubscriber(args.Brokers...)
+	if err != nil {
+		fmt.Println("error : ", err)
+
+		args.Help()
+		os.Exit(1)
+	}
+
+	runner := kafka.Runner{
+		Publisher:  publisher,
+		Subscriber: subsriber,
+		Argument:   args,
+	}
+
+	if err = runner.Run(ctx); err != nil {
+		fmt.Println("error : ", err)
+
+		args.Help()
+		os.Exit(1)
+	}
+}
