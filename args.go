@@ -81,14 +81,16 @@ func ParseArgument() (*Argument, error) {
 		return argument, errors.New("require at least one arguments")
 	}
 
-	switch os.Args[1] {
-	case "pub":
-		publishCommand.Parse(os.Args[2:])
-	case "sub":
-		subscribeCommand.Parse(os.Args[2:])
-	default:
-		argument.Help = flag.Usage
-		return argument, errors.New("invalid command")
+	if !strings.Contains(os.Args[1], "version") {
+		switch os.Args[1] {
+		case "pub":
+			publishCommand.Parse(os.Args[2:])
+		case "sub":
+			subscribeCommand.Parse(os.Args[2:])
+		default:
+			argument.Help = flag.Usage
+			return argument, errors.New("invalid command")
+		}
 	}
 
 	// publish command parsed

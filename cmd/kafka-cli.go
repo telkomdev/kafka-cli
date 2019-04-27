@@ -20,6 +20,11 @@ func main() {
 		os.Exit(1)
 	}
 
+	if args.ShowVersion {
+		fmt.Printf("%s version %s\n", os.Args[0], kafka.Version)
+		os.Exit(0)
+	}
+
 	if args.Verbose {
 		sarama.Logger = log.New(os.Stdout, "", log.Ltime)
 	}

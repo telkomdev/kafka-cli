@@ -4,6 +4,11 @@ import (
 	"context"
 )
 
+const (
+	// Version const
+	Version = "devel"
+)
+
 // Runner type
 type Runner struct {
 	Publisher  Publisher
