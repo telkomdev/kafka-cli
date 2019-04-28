@@ -1,7 +1,6 @@
 package kafka
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -78,7 +77,7 @@ func ParseArgument() (*Argument, error) {
 
 	if len(os.Args) < 2 {
 		argument.Help = flag.Usage
-		return argument, errors.New("require at least one arguments")
+		return argument, ErrorRequiredOneArgument
 	}
 
 	if !strings.Contains(os.Args[1], "version") {
@@ -89,7 +88,7 @@ func ParseArgument() (*Argument, error) {
 			subscribeCommand.Parse(os.Args[2:])
 		default:
 			argument.Help = flag.Usage
-			return argument, errors.New("invalid command")
+			return argument, ErrorInvalidCommand
 		}
 	}
 
@@ -98,17 +97,17 @@ func ParseArgument() (*Argument, error) {
 
 		if len(brokers) <= 0 {
 			argument.Help = flag.Usage
-			return argument, errors.New("require at least one broker")
+			return argument, ErrorRequiredOneBroker
 		}
 
 		if len(topic) <= 0 {
 			argument.Help = flag.Usage
-			return argument, errors.New("require a topic name")
+			return argument, ErrorRequiredTopicName
 		}
 
 		if len(message) <= 0 {
 			argument.Help = flag.Usage
-			return argument, errors.New("pub command require a message")
+			return argument, ErrorPubRequredMessage
 		}
 
 		for _, broker := range brokers {
@@ -116,7 +115,7 @@ func ParseArgument() (*Argument, error) {
 				continue
 			}
 
-			argument.Brokers = append(argument.Brokers, broker)
+			argument.Brokers = append(argument.Brokers, strings.Trim(broker, " "))
 		}
 
 		argument.Topic = topic
@@ -129,12 +128,12 @@ func ParseArgument() (*Argument, error) {
 
 		if len(brokers) <= 0 {
 			argument.Help = flag.Usage
-			return argument, errors.New("require at least one broker")
+			return argument, ErrorRequiredOneBroker
 		}
 
 		if len(topic) <= 0 {
 			argument.Help = flag.Usage
-			return argument, errors.New("require a topic name")
+			return argument, ErrorRequiredTopicName
 		}
 
 		for _, broker := range brokers {
@@ -142,7 +141,7 @@ func ParseArgument() (*Argument, error) {
 				continue
 			}
 
-			argument.Brokers = append(argument.Brokers, broker)
+			argument.Brokers = append(argument.Brokers, strings.Trim(broker, " "))
 		}
 
 		argument.Topic = topic
