@@ -63,8 +63,12 @@ func ParseArgument() (*Argument, error) {
 	flag.BoolVar(&showVersion, "version", false, "show version")
 
 	flag.Usage = func() {
+		fmt.Println("Kafka CLI")
 		fmt.Println()
-		fmt.Println("usage : kafka-cli pub -broker localhost:9092 -topic my-topic")
+		fmt.Println(`publish usage : kafka-cli pub -broker localhost:9092 -topic my-topic -message "hello world"`)
+		fmt.Println()
+		fmt.Println(`subscribe usage : kafka-cli sub -broker localhost:9092 -topic my-topic`)
+		fmt.Println()
 		fmt.Println("sub command either pub (publish) or sub (subsriber)")
 		fmt.Println("-b | -broker : kafka brokers (you can add multiple brokers using separated comma eg: -b localhost:9091,localhost:9092 ..)")
 		fmt.Println("-t | -topic : kafka topic")
