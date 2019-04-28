@@ -26,7 +26,7 @@ func main() {
 	}
 
 	if args.Verbose {
-		sarama.Logger = log.New(os.Stdout, "", log.Ltime)
+		sarama.Logger = log.New(os.Stdout, "kafka-cli-", log.Ltime)
 	}
 
 	ctx := context.Background()
