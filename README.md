@@ -20,6 +20,11 @@ $ kafka-cli --version
 $ kafka-cli pub -broker localhost:9092 -topic wurys -m "hahahaha" -V
 ```
 
+<b>JSON</b>
+```shell
+$ kafka-cli pub -broker localhost:9092 -topic wurys -m "{"hello":"hello", "world":"world"}" -V
+```
+
 <b>or multiple broker</b>
 ```shell
 $ kafka-cli pub -broker localhost:9092,localhost:9093,localhost:9094 -topic wurys -m "hahahaha" -V
