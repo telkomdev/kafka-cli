@@ -4,3 +4,5 @@ kafka-cli
 .vscode
 
 vendor/
+
+build.sh
