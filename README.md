@@ -8,7 +8,7 @@ From source
 ```shell
 $ go get github.com/musobarlab/kafka-cli
 
-$ go install github.com/musobarlab/kafka-cli/cmd
+$ go install github.com/musobarlab/kafka-cli/cmd/kafka-cli
 
 $ kafka-cli --version
 ```
