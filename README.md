@@ -4,7 +4,7 @@ Kafka cli client
 
 ### Install
 
-From source
+<b>From source</b>
 ```shell
 $ go get github.com/musobarlab/kafka-cli
 
@@ -12,6 +12,28 @@ $ go install github.com/musobarlab/kafka-cli/cmd/kafka-cli
 
 $ kafka-cli --version
 ```
+
+<b>Mac OS</b>
+```shell
+$ brew tap wuriyanto48/tool
+
+$ brew install kafka-cli
+
+$ kafka-cli --version
+```
+
+<b>Linux</b>
+```shell
+$ wget https://github.com/musobarlab/kafka-cli/releases/download/v0.0.0/kafka-cli-v0.0.0.linux-amd64.tar.gz
+
+$ tar -zxvf kafka-cli-v0.0.0.linux-amd64.tar.gz
+
+$ kafka-cli --version
+```
+
+<b>Windows</b>
+
+Download latest version https://github.com/musobarlab/kafka-cli/releases
 
 ### Usage
 
