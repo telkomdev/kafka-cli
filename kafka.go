@@ -6,7 +6,7 @@ import (
 
 const (
 	// Version const
-	Version = "devel"
+	Version = "v0.0.0"
 )
 
 // Runner type
