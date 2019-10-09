@@ -4,11 +4,13 @@ Kafka cli client
 
 ### Install
 
-<b>From source</b>
-```shell
-$ go get github.com/musobarlab/kafka-cli
+<b>Build from source</b>
 
-$ go install github.com/musobarlab/kafka-cli/cmd/kafka-cli
+Require `Go` version `1.10` or higher
+```shell
+$ git clone https://github.com/musobarlab/kafka-cli.git
+
+$ make build
 
 $ kafka-cli --version
 ```
