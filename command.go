@@ -1,6 +1,6 @@
 package kafka
 
-// Command tyoe
+// Command type
 type Command int
 
 const (

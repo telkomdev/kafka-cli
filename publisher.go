@@ -42,13 +42,13 @@ func NewPublisher(addresses ...string) (*PublisherImpl, error) {
 }
 
 //Publish function
-func (publiher *PublisherImpl) Publish(topic string, message []byte) error {
+func (publisher *PublisherImpl) Publish(topic string, message []byte) error {
 	// publish sync
 	msg := &sarama.ProducerMessage{
 		Topic: topic,
 		Value: sarama.ByteEncoder(message),
 	}
-	p, o, err := publiher.producer.SendMessage(msg)
+	p, o, err := publisher.producer.SendMessage(msg)
 	if err != nil {
 		return err
 	}
