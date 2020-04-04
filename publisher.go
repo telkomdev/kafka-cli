@@ -1,6 +1,7 @@
 package kafka
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -9,7 +10,7 @@ import (
 
 //Publisher interface
 type Publisher interface {
-	Publish(string, []byte) error
+	Publish(context.Context, string, []byte) error
 }
 
 //PublisherImpl struct
@@ -42,7 +43,7 @@ func NewPublisher(addresses ...string) (*PublisherImpl, error) {
 }
 
 //Publish function
-func (publisher *PublisherImpl) Publish(topic string, message []byte) error {
+func (publisher *PublisherImpl) Publish(ctx context.Context, topic string, message []byte) error {
 	// publish sync
 	msg := &sarama.ProducerMessage{
 		Topic: topic,
