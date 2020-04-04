@@ -22,7 +22,7 @@ func (r *Runner) Run(ctx context.Context) error {
 
 	switch command {
 	case PublishCommand:
-		return r.Publisher.Publish(r.Argument.Topic, r.Argument.Message)
+		return r.Publisher.Publish(ctx, r.Argument.Topic, r.Argument.Message)
 	case SubscribeCommand:
 		return r.Subscriber.Subscribe(ctx, r.Argument.Topic)
 	}

@@ -30,14 +30,14 @@ func main() {
 	}
 
 	ctx := context.Background()
-	publisher, err := kafka.NewPublisher(args.Brokers...)
+	publisher, err := kafka.NewKafkaGoPublisher(args.Topic, args.Brokers...)
 	if err != nil {
 		fmt.Println("error : ", err)
 
 		os.Exit(1)
 	}
 
-	subsriber, err := kafka.NewSubscriber(args.Brokers...)
+	subsriber, err := kafka.NewKafkaGoSubscriber(args.Topic, args.Brokers...)
 	if err != nil {
 		fmt.Println("error : ", err)
 
