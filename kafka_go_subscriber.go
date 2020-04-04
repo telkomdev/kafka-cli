@@ -18,7 +18,7 @@ type KafkaGoSubscriberImpl struct {
 	reader *ka.Reader
 }
 
-//NewSubscriber constructor of KafkaGoSubscriberImpl
+//NewKafkaGoSubscriber constructor of KafkaGoSubscriberImpl
 func NewKafkaGoSubscriber(topic string, addresses ...string) (*KafkaGoSubscriberImpl, error) {
 	config := kafka.ReaderConfig{
 		Brokers:  addresses,
