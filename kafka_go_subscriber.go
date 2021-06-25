@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/segmentio/kafka-go"
 	ka "github.com/segmentio/kafka-go"
@@ -21,12 +22,12 @@ type KafkaGoSubscriberImpl struct {
 //NewKafkaGoSubscriber constructor of KafkaGoSubscriberImpl
 func NewKafkaGoSubscriber(topic string, addresses ...string) (*KafkaGoSubscriberImpl, error) {
 	config := kafka.ReaderConfig{
-		Brokers:  addresses,
-		Topic:    topic,
-		GroupID:  "kafka-cli-group",
-		MinBytes: 10e3, // 10KB
-		MaxBytes: 10e6, // 10MB
-		// CommitInterval: time.Second, // flushes commits to Kafka every second
+		Brokers:        addresses,
+		Topic:          topic,
+		GroupID:        "kafka-cli-group",
+		MinBytes:       10e3,        // 10KB
+		MaxBytes:       10e6,        // 10MB
+		CommitInterval: time.Second, // flushes commits to Kafka every second
 	}
 
 	reader := ka.NewReader(config)
@@ -45,7 +46,7 @@ func (s *KafkaGoSubscriberImpl) Subscribe(ctx context.Context, topics ...string)
 
 	go func() {
 		for {
-			message, err := s.reader.ReadMessage(ctx)
+			message, err := s.reader.FetchMessage(ctx)
 			if err != nil {
 				if err == io.EOF {
 					fmt.Println("read message end ")
@@ -57,7 +58,7 @@ func (s *KafkaGoSubscriberImpl) Subscribe(ctx context.Context, topics ...string)
 
 			fmt.Println()
 			fmt.Printf("\nMessage = %s\nTopic = %s", string(message.Value), message.Topic)
-			//s.reader.CommitMessages(ctx, message)
+			s.reader.CommitMessages(ctx, message)
 		}
 	}()
 

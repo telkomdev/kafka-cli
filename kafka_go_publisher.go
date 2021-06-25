@@ -17,7 +17,6 @@ type KafkaGoPublisherImpl struct {
 func NewKafkaGoPublisher(topic string, addresses ...string) (*KafkaGoPublisherImpl, error) {
 	config := ka.WriterConfig{
 		Brokers:          addresses,
-		Topic:            topic,
 		Balancer:         &ka.LeastBytes{},
 		CompressionCodec: snappy.NewCompressionCodec(),
 		BatchTimeout:     5 * time.Millisecond,
