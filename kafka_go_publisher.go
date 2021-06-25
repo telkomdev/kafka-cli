@@ -20,7 +20,7 @@ func NewKafkaGoPublisher(topic string, addresses ...string) (*KafkaGoPublisherIm
 		Balancer:         &ka.LeastBytes{},
 		CompressionCodec: snappy.NewCompressionCodec(),
 		BatchTimeout:     5 * time.Millisecond,
-		BatchBytes:       1000000,
+		//BatchBytes:       1000000,
 	}
 
 	writer := ka.NewWriter(config)
