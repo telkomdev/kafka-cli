@@ -37,7 +37,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	subsriber, err := kafka.NewKafkaGoSubscriber(args.Topic, args.Brokers...)
+	subscriber, err := kafka.NewKafkaGoSubscriber(args.Topic, args.Brokers...)
 	if err != nil {
 		fmt.Println("error : ", err)
 
@@ -51,7 +51,7 @@ func main() {
 	// 	os.Exit(1)
 	// }
 
-	// subsriber, err := kafka.NewSaramaSubscriber(args.Brokers...)
+	// subscriber, err := kafka.NewSaramaSubscriber(args.Brokers...)
 	// if err != nil {
 	// 	fmt.Println("error : ", err)
 
@@ -60,7 +60,7 @@ func main() {
 
 	runner := kafka.Runner{
 		Publisher:  publisher,
-		Subscriber: subsriber,
+		Subscriber: subscriber,
 		Argument:   args,
 	}
 
