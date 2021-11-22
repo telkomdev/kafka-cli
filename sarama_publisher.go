@@ -15,8 +15,6 @@ type SaramaPublisherImpl struct {
 
 //NewSaramaPublisher constructor of SaramaPublisherImpl
 func NewSaramaPublisher(args *Argument) (*SaramaPublisherImpl, error) {
-	fmt.Println(args.Brokers)
-
 	// producer config
 	config := sarama.NewConfig()
 	config.ClientID = "kafka-cli"
