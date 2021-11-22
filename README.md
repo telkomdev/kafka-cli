@@ -63,3 +63,11 @@ $ kafka-cli sub -broker localhost:9092 -topic wurys
 ```shell
 $ kafka-cli sub -broker localhost:9092,localhost:9093,localhost:9094 -topic wurys
 ```
+
+<b>SASL auth mechanism</b>
+you need add `-auth` flag for prompting username and password
+```shell
+$ kafka-cli sub -broker localhost:9092,localhost:9093,localhost:9094 -topic wurys -auth
+$ username: your-username
+$ password: your-password
+```
