@@ -30,33 +30,33 @@ func main() {
 	}
 
 	ctx := context.Background()
-	publisher, err := kafka.NewKafkaGoPublisher(args.Topic, args.Brokers...)
-	if err != nil {
-		fmt.Println("error : ", err)
-
-		os.Exit(1)
-	}
-
-	subscriber, err := kafka.NewKafkaGoSubscriber(args.Topic, args.Brokers...)
-	if err != nil {
-		fmt.Println("error : ", err)
-
-		os.Exit(1)
-	}
-
-	// publisher, err := kafka.NewSaramaPublisher(args.Brokers...)
+	// publisher, err := kafka.NewKafkaGoPublisher(args)
 	// if err != nil {
 	// 	fmt.Println("error : ", err)
 
 	// 	os.Exit(1)
 	// }
 
-	// subscriber, err := kafka.NewSaramaSubscriber(args.Brokers...)
+	// subscriber, err := kafka.NewKafkaGoSubscriber(args)
 	// if err != nil {
 	// 	fmt.Println("error : ", err)
 
 	// 	os.Exit(1)
 	// }
+
+	publisher, err := kafka.NewSaramaPublisher(args)
+	if err != nil {
+		fmt.Println("error : ", err)
+
+		os.Exit(1)
+	}
+
+	subscriber, err := kafka.NewSaramaSubscriber(args)
+	if err != nil {
+		fmt.Println("error : ", err)
+
+		os.Exit(1)
+	}
 
 	runner := kafka.Runner{
 		Publisher:  publisher,

@@ -14,21 +14,36 @@ type SaramaPublisherImpl struct {
 }
 
 //NewSaramaPublisher constructor of SaramaPublisherImpl
-func NewSaramaPublisher(addresses ...string) (*SaramaPublisherImpl, error) {
+func NewSaramaPublisher(args *Argument) (*SaramaPublisherImpl, error) {
+	fmt.Println(args.Brokers)
 
 	// producer config
-	configuration := sarama.NewConfig()
-	configuration.ClientID = "kafka-cli"
-	configuration.Producer.Retry.Max = 10
-	configuration.Producer.Retry.Backoff = 10 * time.Second
-	configuration.Producer.RequiredAcks = sarama.WaitForAll
-	configuration.Producer.Timeout = 10 * time.Second
-	configuration.Producer.Compression = sarama.CompressionSnappy
-	configuration.Producer.Return.Successes = true
-	configuration.Producer.MaxMessageBytes = 104857599
+	config := sarama.NewConfig()
+	config.ClientID = "kafka-cli"
+	config.Producer.Retry.Max = 10
+	config.Producer.Retry.Backoff = 10 * time.Second
+	config.Producer.RequiredAcks = sarama.WaitForAll
+	config.Producer.Timeout = 10 * time.Second
+	config.Producer.Compression = sarama.CompressionSnappy
+	config.Producer.Return.Successes = true
+	config.Producer.MaxMessageBytes = 104857599
+
+	if args.Auth {
+		config.Metadata.Full = true
+		config.Net.SASL.Enable = true
+		config.Net.SASL.User = args.Username
+		config.Net.SASL.Password = args.Password
+		config.Net.SASL.Handshake = true
+		config.Net.SASL.Version = sarama.SASLHandshakeV0
+
+		// config.Net.SASL.SCRAMClientGeneratorFunc = func() sarama.SCRAMClient { return &SaramScramClient{HashGeneratorFcn: SHA512} }
+		// config.Net.SASL.Mechanism = sarama.SASLTypeSCRAMSHA512
+
+		config.Net.SASL.Mechanism = sarama.SASLTypePlaintext
+	}
 
 	// sync producer
-	producer, err := sarama.NewSyncProducer(addresses, configuration)
+	producer, err := sarama.NewSyncProducer(args.Brokers, config)
 
 	if err != nil {
 		return nil, err

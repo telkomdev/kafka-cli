@@ -1,6 +1,7 @@
 package kafka
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"os"
@@ -16,6 +17,9 @@ type Argument struct {
 	Help        func()
 	Message     []byte
 	Verbose     bool
+	Auth        bool
+	Username    string
+	Password    string
 }
 
 type brokerList []string
@@ -38,6 +42,7 @@ func ParseArgument() (*Argument, error) {
 		message     string
 		showVersion bool
 		verbose     bool
+		auth        bool
 	)
 
 	argument := &Argument{}
@@ -53,12 +58,14 @@ func ParseArgument() (*Argument, error) {
 	publishCommand.StringVar(&message, "m", "", "message to publish")
 	publishCommand.StringVar(&message, "message", "", "message to publish")
 	publishCommand.BoolVar(&verbose, "V", false, "verbose mode (if true log will appear otherwise no)")
+	publishCommand.BoolVar(&auth, "auth", false, "set username and password prompt")
 
 	subscribeCommand.Var(&brokers, "b", "kafka brokers (you can add multiple brokers using separated comma eg: -b localhost:9091,localhost:9092 ..)")
 	subscribeCommand.Var(&brokers, "broker", "you can add multiple brokers using separated comma eg: -b localhost:9091,localhost:9092 ..)")
 	subscribeCommand.StringVar(&topic, "t", "", "kafka topic")
 	subscribeCommand.StringVar(&topic, "topic", "", "kafka topic")
 	subscribeCommand.BoolVar(&verbose, "V", false, "verbose mode (if true log will appear otherwise no)")
+	subscribeCommand.BoolVar(&auth, "auth", false, "set username and password prompt")
 
 	flag.BoolVar(&showVersion, "version", false, "show version")
 
@@ -72,9 +79,10 @@ func ParseArgument() (*Argument, error) {
 		fmt.Println("sub command either pub (publish) or sub (subsriber)")
 		fmt.Println("-b | -broker : kafka brokers (you can add multiple brokers using separated comma eg: -b localhost:9091,localhost:9092 ..)")
 		fmt.Println("-t | -topic : kafka topic")
-		fmt.Println("-h show help")
-		fmt.Println("-version show version")
-		fmt.Println("-V verbose mode")
+		fmt.Println("-h : show help")
+		fmt.Println("-version : show version")
+		fmt.Println("-V : verbose mode")
+		fmt.Println("-auth : prompt sasl auth")
 	}
 
 	flag.Parse()
@@ -152,8 +160,42 @@ func ParseArgument() (*Argument, error) {
 		argument.Command = CommandFromString(os.Args[1])
 	}
 
+	if auth {
+		var (
+			authFields = []string{
+				"username: ",
+				"password: ",
+			}
+
+			responses []string
+		)
+
+		authReader := bufio.NewReader(os.Stdin)
+
+		for _, authField := range authFields {
+
+			fmt.Printf("%s", authField)
+
+			response, err := authReader.ReadString('\n')
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+
+			response = strings.TrimSpace(response)
+
+			responses = append(responses, response)
+		}
+
+		fmt.Println()
+
+		argument.Username = responses[0]
+		argument.Password = responses[1]
+	}
+
 	argument.ShowVersion = showVersion
 	argument.Verbose = verbose
+	argument.Auth = auth
 
 	return argument, nil
 }

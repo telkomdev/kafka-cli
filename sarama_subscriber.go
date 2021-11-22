@@ -23,14 +23,28 @@ type SubscriberHandler struct {
 }
 
 //NewSaramaSubscriber constructor of SaramaSubscriberImpl
-func NewSaramaSubscriber(addresses ...string) (*SaramaSubscriberImpl, error) {
+func NewSaramaSubscriber(args *Argument) (*SaramaSubscriberImpl, error) {
 	config := sarama.NewConfig()
 
 	kafkaVersion, _ := sarama.ParseKafkaVersion("2.1.1")
 	config.Version = kafkaVersion
 	config.Consumer.Return.Errors = true
 
-	consumer, err := sarama.NewConsumerGroup(addresses, "kafka-cli-group", config)
+	if args.Auth {
+		config.Metadata.Full = true
+		config.Net.SASL.Enable = true
+		config.Net.SASL.User = args.Username
+		config.Net.SASL.Password = args.Password
+		config.Net.SASL.Handshake = true
+		config.Net.SASL.Version = sarama.SASLHandshakeV0
+
+		// config.Net.SASL.SCRAMClientGeneratorFunc = func() sarama.SCRAMClient { return &SaramScramClient{HashGeneratorFcn: SHA512} }
+		// config.Net.SASL.Mechanism = sarama.SASLTypeSCRAMSHA512
+
+		config.Net.SASL.Mechanism = sarama.SASLTypePlaintext
+	}
+
+	consumer, err := sarama.NewConsumerGroup(args.Brokers, "kafka-cli-group", config)
 	if err != nil {
 		return nil, err
 	}

@@ -11,6 +11,9 @@ import (
 
 	"github.com/segmentio/kafka-go"
 	ka "github.com/segmentio/kafka-go"
+
+	// kascram "github.com/segmentio/kafka-go/sasl/scram"
+	kaplain "github.com/segmentio/kafka-go/sasl/plain"
 	_ "github.com/segmentio/kafka-go/snappy"
 )
 
@@ -20,14 +23,31 @@ type KafkaGoSubscriberImpl struct {
 }
 
 //NewKafkaGoSubscriber constructor of KafkaGoSubscriberImpl
-func NewKafkaGoSubscriber(topic string, addresses ...string) (*KafkaGoSubscriberImpl, error) {
+func NewKafkaGoSubscriber(args *Argument) (*KafkaGoSubscriberImpl, error) {
 	config := kafka.ReaderConfig{
-		Brokers:        addresses,
-		Topic:          topic,
+		Brokers:        args.Brokers,
+		Topic:          args.Topic,
 		GroupID:        "kafka-cli-group",
 		MinBytes:       10e3,        // 10KB
 		MaxBytes:       10e6,        // 10MB
 		CommitInterval: time.Second, // flushes commits to Kafka every second
+	}
+
+	if args.Auth {
+		// mechanism, err := kascram.Mechanism(kascram.SHA512, args.Username, args.Password)
+		// if err != nil {
+		// 	panic(err)
+		// }
+
+		mechanism := &kaplain.Mechanism{Username: args.Username, Password: args.Password}
+
+		dialer := &ka.Dialer{
+			Timeout:       10 * time.Second,
+			DualStack:     true,
+			SASLMechanism: mechanism,
+		}
+
+		config.Dialer = dialer
 	}
 
 	reader := ka.NewReader(config)
