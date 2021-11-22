@@ -26,9 +26,6 @@ type SubscriberHandler struct {
 func NewSaramaSubscriber(args *Argument) (*SaramaSubscriberImpl, error) {
 	config := sarama.NewConfig()
 	config.ClientID = "kafka-cli"
-
-	kafkaVersion, _ := sarama.ParseKafkaVersion("2.1.1")
-	config.Version = kafkaVersion
 	config.Consumer.Return.Errors = true
 
 	if args.Auth {
