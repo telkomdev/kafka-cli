@@ -8,7 +8,7 @@ Kafka cli client
 
 Require `Go` version `1.10` or higher
 ```shell
-$ git clone https://github.com/musobarlab/kafka-cli.git
+$ git clone https://github.com/telkomdev/kafka-cli.git
 
 $ make build
 
@@ -26,7 +26,7 @@ $ kafka-cli --version
 
 <b>Linux</b>
 ```shell
-$ wget https://github.com/musobarlab/kafka-cli/releases/download/v0.0.0/kafka-cli-v0.0.0.linux-amd64.tar.gz
+$ wget https://github.com/telkomdev/kafka-cli/releases/download/v0.0.0/kafka-cli-v0.0.0.linux-amd64.tar.gz
 
 $ tar -zxvf kafka-cli-v0.0.0.linux-amd64.tar.gz
 
@@ -35,7 +35,7 @@ $ kafka-cli --version
 
 <b>Windows</b>
 
-Download latest version https://github.com/musobarlab/kafka-cli/releases
+Download latest version https://github.com/telkomdev/kafka-cli/releases
 
 ### Usage
 

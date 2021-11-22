@@ -1,4 +1,4 @@
-package kafka
+package kafkagoc
 
 import (
 	"context"
@@ -9,7 +9,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/segmentio/kafka-go"
+	kafka "github.com/telkomdev/kafka-cli"
+
 	ka "github.com/segmentio/kafka-go"
 
 	// kascram "github.com/segmentio/kafka-go/sasl/scram"
@@ -23,8 +24,8 @@ type KafkaGoSubscriberImpl struct {
 }
 
 //NewKafkaGoSubscriber constructor of KafkaGoSubscriberImpl
-func NewKafkaGoSubscriber(args *Argument) (*KafkaGoSubscriberImpl, error) {
-	config := kafka.ReaderConfig{
+func NewKafkaGoSubscriber(args *kafka.Argument) (*KafkaGoSubscriberImpl, error) {
+	config := ka.ReaderConfig{
 		Brokers:        args.Brokers,
 		Topic:          args.Topic,
 		GroupID:        "kafka-cli-group",

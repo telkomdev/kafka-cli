@@ -8,7 +8,9 @@ import (
 
 	"github.com/Shopify/sarama"
 
-	kafka "github.com/musobarlab/kafka-cli"
+	kafka "github.com/telkomdev/kafka-cli"
+	// "github.com/telkomdev/kafka-cli/client/kafkagoc"
+	"github.com/telkomdev/kafka-cli/client/saramac"
 )
 
 func main() {
@@ -30,28 +32,28 @@ func main() {
 	}
 
 	ctx := context.Background()
-	// publisher, err := kafka.NewKafkaGoPublisher(args)
+	// publisher, err := kafkagoc.NewKafkaGoPublisher(args)
 	// if err != nil {
 	// 	fmt.Println("error : ", err)
 
 	// 	os.Exit(1)
 	// }
 
-	// subscriber, err := kafka.NewKafkaGoSubscriber(args)
+	// subscriber, err := kafkagoc.NewKafkaGoSubscriber(args)
 	// if err != nil {
 	// 	fmt.Println("error : ", err)
 
 	// 	os.Exit(1)
 	// }
 
-	publisher, err := kafka.NewSaramaPublisher(args)
+	publisher, err := saramac.NewSaramaPublisher(args)
 	if err != nil {
 		fmt.Println("error : ", err)
 
 		os.Exit(1)
 	}
 
-	subscriber, err := kafka.NewSaramaSubscriber(args)
+	subscriber, err := saramac.NewSaramaSubscriber(args)
 	if err != nil {
 		fmt.Println("error : ", err)
 

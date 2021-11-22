@@ -1,4 +1,4 @@
-package kafka
+package saramac
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/Shopify/sarama"
+	kafka "github.com/telkomdev/kafka-cli"
 )
 
 //SaramaPublisherImpl struct
@@ -14,7 +15,7 @@ type SaramaPublisherImpl struct {
 }
 
 //NewSaramaPublisher constructor of SaramaPublisherImpl
-func NewSaramaPublisher(args *Argument) (*SaramaPublisherImpl, error) {
+func NewSaramaPublisher(args *kafka.Argument) (*SaramaPublisherImpl, error) {
 	// producer config
 	config := sarama.NewConfig()
 	config.ClientID = "kafka-cli"

@@ -1,7 +1,7 @@
 .PHONY : test build clean format
 
 build:
-	go build github.com/musobarlab/kafka-cli/cmd/kafka-cli
+	go build github.com/telkomdev/kafka-cli/cmd/kafka-cli
 
 test:
 	go test ./...

@@ -1,8 +1,10 @@
-package kafka
+package kafkagoc
 
 import (
 	"context"
 	"time"
+
+	kafka "github.com/telkomdev/kafka-cli"
 
 	ka "github.com/segmentio/kafka-go"
 
@@ -18,7 +20,7 @@ type KafkaGoPublisherImpl struct {
 }
 
 //NewKafkaGoPublisherImpl constructor of KafkaGoPublisherImpl
-func NewKafkaGoPublisher(args *Argument) (*KafkaGoPublisherImpl, error) {
+func NewKafkaGoPublisher(args *kafka.Argument) (*KafkaGoPublisherImpl, error) {
 	config := ka.WriterConfig{
 		Brokers:          args.Brokers,
 		Balancer:         &ka.LeastBytes{},

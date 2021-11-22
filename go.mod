@@ -1,4 +1,4 @@
-module github.com/musobarlab/kafka-cli
+module github.com/telkomdev/kafka-cli
 
 go 1.15
 

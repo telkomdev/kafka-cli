@@ -1,4 +1,4 @@
-package kafka
+package saramac
 
 import (
 	"context"
@@ -9,6 +9,7 @@ import (
 	"syscall"
 
 	"github.com/Shopify/sarama"
+	kafka "github.com/telkomdev/kafka-cli"
 )
 
 //SaramaSubscriberImpl struct
@@ -23,7 +24,7 @@ type SubscriberHandler struct {
 }
 
 //NewSaramaSubscriber constructor of SaramaSubscriberImpl
-func NewSaramaSubscriber(args *Argument) (*SaramaSubscriberImpl, error) {
+func NewSaramaSubscriber(args *kafka.Argument) (*SaramaSubscriberImpl, error) {
 	config := sarama.NewConfig()
 	config.ClientID = "kafka-cli"
 	config.Consumer.Return.Errors = true
