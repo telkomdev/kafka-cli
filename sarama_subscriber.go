@@ -25,6 +25,7 @@ type SubscriberHandler struct {
 //NewSaramaSubscriber constructor of SaramaSubscriberImpl
 func NewSaramaSubscriber(args *Argument) (*SaramaSubscriberImpl, error) {
 	config := sarama.NewConfig()
+	config.ClientID = "kafka-cli"
 
 	kafkaVersion, _ := sarama.ParseKafkaVersion("2.1.1")
 	config.Version = kafkaVersion
@@ -36,7 +37,7 @@ func NewSaramaSubscriber(args *Argument) (*SaramaSubscriberImpl, error) {
 		config.Net.SASL.User = args.Username
 		config.Net.SASL.Password = args.Password
 		config.Net.SASL.Handshake = true
-		config.Net.SASL.Version = sarama.SASLHandshakeV0
+		config.Net.SASL.Version = sarama.SASLHandshakeV1
 
 		// config.Net.SASL.SCRAMClientGeneratorFunc = func() sarama.SCRAMClient { return &SaramScramClient{HashGeneratorFcn: SHA512} }
 		// config.Net.SASL.Mechanism = sarama.SASLTypeSCRAMSHA512

@@ -32,7 +32,7 @@ func NewSaramaPublisher(args *Argument) (*SaramaPublisherImpl, error) {
 		config.Net.SASL.User = args.Username
 		config.Net.SASL.Password = args.Password
 		config.Net.SASL.Handshake = true
-		config.Net.SASL.Version = sarama.SASLHandshakeV0
+		config.Net.SASL.Version = sarama.SASLHandshakeV1
 
 		// config.Net.SASL.SCRAMClientGeneratorFunc = func() sarama.SCRAMClient { return &SaramScramClient{HashGeneratorFcn: SHA512} }
 		// config.Net.SASL.Mechanism = sarama.SASLTypeSCRAMSHA512
