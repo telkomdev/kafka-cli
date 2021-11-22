@@ -70,19 +70,26 @@ func ParseArgument() (*Argument, error) {
 	flag.BoolVar(&showVersion, "version", false, "show version")
 
 	flag.Usage = func() {
-		fmt.Println("Kafka CLI")
+		fmt.Println()
+		fmt.Printf("---------------------- Kafka CLI (version %s) ----------------------\n", Version)
+		fmt.Println("------------------------------------------------------------------------------")
 		fmt.Println()
 		fmt.Println(`publish usage : kafka-cli pub -broker localhost:9092 -topic my-topic -message "hello world"`)
 		fmt.Println()
+		fmt.Println(`publish with auth usage : kafka-cli pub -broker localhost:9092 -topic my-topic -message "hello world" -auth`)
+		fmt.Println("------------------------------------------------------------------------------")
 		fmt.Println(`subscribe usage : kafka-cli sub -broker localhost:9092 -topic my-topic`)
 		fmt.Println()
+		fmt.Println(`subscribe with auth usage : kafka-cli sub -broker localhost:9092 -topic my-topic -auth`)
+		fmt.Println("------------------------------------------------------------------------------")
 		fmt.Println("sub command either pub (publish) or sub (subsriber)")
-		fmt.Println("-b | -broker : kafka brokers (you can add multiple brokers using separated comma eg: -b localhost:9091,localhost:9092 ..)")
+		fmt.Println("-b | -broker : kafka brokers (you can add multiple brokers using separated by comma eg: -b localhost:9091,localhost:9092 ..)")
 		fmt.Println("-t | -topic : kafka topic")
 		fmt.Println("-h : show help")
 		fmt.Println("-version : show version")
 		fmt.Println("-V : verbose mode")
 		fmt.Println("-auth : prompt sasl auth")
+		fmt.Println("------------------------------------------------------------------------------")
 	}
 
 	flag.Parse()
